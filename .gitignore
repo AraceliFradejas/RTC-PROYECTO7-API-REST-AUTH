@@ -1,0 +1,10 @@
+node_modules/
+.env
+npm-debug.log*
+.DS_Store
+
+# Capturas locales pendientes de ocultar la contraseña del body
+screenshots/Insomnia5-RegistroUsuario.png
+screenshots/Insomnia10-SegundoUsuario.png
+screenshots/Insomnia25-UsuarioNuevo2SeCrea.png
+.vscode/

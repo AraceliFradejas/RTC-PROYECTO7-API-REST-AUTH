@@ -245,7 +245,24 @@ Comprueba que `req.user.role` sea `admin`. Si no lo es, responde con `403 Forbid
 8. Ron volvió a `user` y eliminó su propia cuenta.
 9. Hermione eliminó a Harry como administradora.
 
-## 12. Incidencias encontradas y soluciones
+## 12. Lo que he aprendido
+
+Al desarrollar esta API he entendido mejor cómo se conectan la autenticación, los permisos y los datos. Estas son las ideas que más me ha ayudado a practicar:
+
+- `bcrypt` sirve para guardar una contraseña de forma segura. La API comprueba primero que la contraseña original tenga al menos seis caracteres y después guarda el hash, no la contraseña que escribió la persona.
+- Un JWT funciona como una credencial temporal. En el login se firma un token con el identificador del usuario y una duración de dos horas. En las rutas protegidas, `verifyToken` comprueba que la firma sea válida y vuelve a buscar al usuario en MongoDB.
+- Entendí mejor la diferencia entre `401` y `403`: el `401` significa que falta el token o no es válido; el `403` significa que la persona sí está identificada, pero no tiene permiso para esa acción.
+- La autenticación y la autorización son cosas distintas. `verifyToken` identifica al usuario y guarda sus datos en `req.user`; `isAdmin` comprueba después si su rol permite continuar.
+- El registro fuerza siempre el rol `user`, aunque alguien intente enviar `role: admin` en el body. El primer administrador se asigna manualmente en Atlas y, a partir de ahí, puede cambiar los roles desde la API.
+- Las relaciones de `User` con `House` y `Wand` se guardan como `ObjectId`. Con `populate()` puedo devolver los datos de la casa y la varita sin duplicarlos dentro del usuario.
+- Antes de guardar un usuario se comprueba que la casa y la varita existan. Del mismo modo, una casa o una varita no se puede borrar si todavía está asignada a un usuario, porque se dejaría una relación rota.
+- La lista blanca de campos modificables evita que un usuario cambie por su cuenta valores sensibles, especialmente el rol. No basta con comprobar quién hace la petición; también hay que decidir qué campos puede modificar.
+- La semilla usa `upsert`: si la casa o la varita ya existe, se actualiza; si no existe, se crea. Así puedo ejecutar `npm run seed` varias veces sin borrar colecciones ni generar duplicados.
+- También he aprendido a probar los errores como parte del funcionamiento normal de la API. Las respuestas `400`, `401`, `403`, `404` y `409` ayudan a explicar qué ha ocurrido y a proteger la integridad de los datos.
+
+Estas decisiones me han hecho ver que proteger una API no consiste únicamente en poner un token. Hay que validar los datos, comprobar las relaciones, separar identificación de permisos y limitar lo que cada usuario puede hacer.
+
+## 13. Incidencias encontradas y soluciones
 
 ### Puerto 5000 ocupado
 
@@ -271,7 +288,7 @@ Validar solamente el hash no garantiza la longitud de la contraseña original. P
 
 Los tokens, contraseñas y hashes visibles se ocultaron o se excluyeron de Git. Las capturas seleccionadas para la documentación no muestran credenciales utilizables.
 
-## 13. Evidencias destacadas
+## 14. Evidencias destacadas
 
 ### MongoDB Atlas
 
@@ -295,7 +312,7 @@ Los tokens, contraseñas y hashes visibles se ocultaron o se excluyeron de Git. 
 
 ![Administrador elimina otro usuario](screenshots/Insomnia26-UsuarioNuevo2SeElimina.png)
 
-## 14. Correspondencia con los requisitos
+## 15. Correspondencia con los requisitos
 
 | Requisito | Implementación |
 | --- | --- |
@@ -315,7 +332,7 @@ Los tokens, contraseñas y hashes visibles se ocultaron o se excluyeron de Git. 
 | README de endpoints | `README.md` |
 | Repositorio público | Repositorio de GitHub del proyecto |
 
-## 15. Conclusión
+## 16. Conclusión
 
 El proyecto cumple los requisitos mínimos y añade medidas adicionales de validación, seguridad e integridad referencial. Las pruebas realizadas muestran no solo los casos correctos, sino también errores esperados como `400`, `401`, `403`, `404` y `409`.
 

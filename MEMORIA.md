@@ -298,6 +298,16 @@ Los tokens, contraseñas y hashes visibles se ocultaron o se excluyeron de Git. 
 
 ![Administrador asciende otro usuario](screenshots/Insomnia11-AdminAsciendeUsuario.png)
 
+### CRUD de casas y varitas
+
+#### Creación de una casa por un administrador
+
+![Creación de una casa por un administrador](screenshots/Insomnia12-AdminCreaCasa.png)
+
+#### Actualización de una varita
+
+![Actualización de una varita](screenshots/Insomnia18-AdminModificaVarita.png)
+
 ### Eliminación de usuarios
 
 ![Usuario elimina su propia cuenta](screenshots/Insomnia24-UsuarioSeElimina.png)

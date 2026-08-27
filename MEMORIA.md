@@ -1,20 +1,12 @@
-# Memoria del proyecto: API REST AUTH Hogwarts
+# Memoria del proyecto
 
-## 1. Información general
+## API REST AUTH - Hogwarts
 
-| Dato | Valor |
-| --- | --- |
-| Proyecto | API REST AUTH Hogwarts |
-| Autora y contribuidora principal | Araceli Fradejas Muñoz |
-| Tipo | Backend API REST |
-| Formación | Máster Rock The Code de The Power Tech School |
-| Entorno | Node.js y Express |
-| Base de datos | MongoDB Atlas |
-| ODM | Mongoose |
-| Autenticación | JSON Web Token |
-| Pruebas manuales | Insomnia |
+**Autora:** Araceli Fradejas Muñoz
 
-## 2. Objetivo
+**Formación:** Módulo 5: Backend [Node | Mongo | API REST], máster Rock The Code, The Power Tech School
+
+## 1. Objetivo
 
 El objetivo es desarrollar desde cero una API REST autenticada con una temática diferente a proyectos anteriores. La aplicación representa una pequeña academia inspirada en Hogwarts, donde los usuarios pertenecen a una casa y tienen asignada una varita.
 
@@ -30,7 +22,7 @@ El proyecto demuestra:
 - Protección de rutas con middleware.
 - Comprobación manual de la API con Insomnia.
 
-## 3. Temática y lógica de negocio
+## 2. Temática y lógica de negocio
 
 La temática permite representar de forma sencilla los permisos y las relaciones:
 
@@ -43,7 +35,7 @@ La temática permite representar de forma sencilla los permisos y las relaciones
 
 Los nombres técnicos de los roles son `user` y `admin` porque coinciden exactamente con el enunciado del proyecto.
 
-## 4. Arquitectura
+## 3. Arquitectura
 
 El proyecto está separado por responsabilidades:
 
@@ -77,7 +69,7 @@ Respuesta JSON
 | `seeds` | Carga inicial de casas y varitas |
 | `screenshots` | Evidencias visuales de Atlas e Insomnia |
 
-## 5. Modelos de datos
+## 4. Modelos de datos
 
 ### User
 
@@ -120,7 +112,7 @@ User.wand  -> Wand._id
 
 Al consultar usuarios se utiliza `populate()` para mostrar los documentos de casa y varita en lugar de presentar solamente sus identificadores.
 
-## 6. Semilla
+## 5. Semilla
 
 La semilla carga cuatro casas y cuatro varitas.
 
@@ -144,7 +136,7 @@ Comando:
 npm run seed
 ```
 
-## 7. Registro y autenticación
+## 6. Registro y autenticación
 
 ### Registro
 
@@ -166,7 +158,7 @@ El login busca el usuario por email y solicita expresamente a Mongoose el hash o
 
 El token guarda el identificador del usuario. En cada petición protegida, el middleware vuelve a consultar MongoDB para utilizar el rol actual. Por este motivo, un cambio de rol en Atlas se aplica sin necesidad de generar otro token mientras el token anterior continúe vigente.
 
-## 8. Autorización
+## 7. Autorización
 
 ### Middleware `verifyToken`
 
@@ -188,7 +180,7 @@ Comprueba que `req.user.role` sea `admin`. Si no lo es, responde con `403 Forbid
 | `401 Unauthorized` | Falta el token o no es válido |
 | `403 Forbidden` | El usuario está autenticado, pero no tiene permisos |
 
-## 9. Reglas de seguridad
+## 8. Reglas de seguridad
 
 - Las contraseñas se almacenan cifradas.
 - Las respuestas nunca incluyen `password`.
@@ -203,7 +195,7 @@ Comprueba que `req.user.role` sea `admin`. Si no lo es, responde con `403 Forbid
 - Los errores internos no exponen detalles sensibles.
 - `.env` y `node_modules` están excluidos de Git.
 
-## 10. CRUD comprobado
+## 9. CRUD comprobado
 
 ### Usuarios
 
@@ -233,7 +225,7 @@ Comprueba que `req.user.role` sea `admin`. Si no lo es, responde con `403 Forbid
 | Actualizar | PUT | `200 OK` y datos modificados |
 | Eliminar | DELETE | `200 OK`; consulta posterior `404` |
 
-## 11. Pruebas de roles realizadas
+## 10. Pruebas de roles realizadas
 
 1. Hermione se registró intentando enviar `role: admin`.
 2. La API la creó correctamente como `user`.
@@ -245,7 +237,7 @@ Comprueba que `req.user.role` sea `admin`. Si no lo es, responde con `403 Forbid
 8. Ron volvió a `user` y eliminó su propia cuenta.
 9. Hermione eliminó a Harry como administradora.
 
-## 12. Lo que he aprendido
+## 11. Lo que he aprendido
 
 Al desarrollar esta API he entendido mejor cómo se conectan la autenticación, los permisos y los datos. Estas son las ideas que más me ha ayudado a practicar:
 
@@ -262,7 +254,7 @@ Al desarrollar esta API he entendido mejor cómo se conectan la autenticación, 
 
 Estas decisiones me han hecho ver que proteger una API no consiste únicamente en poner un token. Hay que validar los datos, comprobar las relaciones, separar identificación de permisos y limitar lo que cada usuario puede hacer.
 
-## 13. Incidencias encontradas y soluciones
+## 12. Incidencias encontradas y soluciones
 
 ### Puerto 5000 ocupado
 
@@ -288,7 +280,7 @@ Validar solamente el hash no garantiza la longitud de la contraseña original. P
 
 Los tokens, contraseñas y hashes visibles se ocultaron o se excluyeron de Git. Las capturas seleccionadas para la documentación no muestran credenciales utilizables.
 
-## 14. Evidencias destacadas
+## 13. Pruebas y evidencias
 
 ### MongoDB Atlas
 
@@ -312,7 +304,7 @@ Los tokens, contraseñas y hashes visibles se ocultaron o se excluyeron de Git. 
 
 ![Administrador elimina otro usuario](screenshots/Insomnia26-UsuarioNuevo2SeElimina.png)
 
-## 15. Correspondencia con los requisitos
+## 14. Correspondencia con los requisitos
 
 | Requisito | Implementación |
 | --- | --- |
@@ -332,7 +324,7 @@ Los tokens, contraseñas y hashes visibles se ocultaron o se excluyeron de Git. 
 | README de endpoints | `README.md` |
 | Repositorio público | Repositorio de GitHub del proyecto |
 
-## 16. Conclusión
+## 15. Conclusión
 
 El proyecto cumple los requisitos mínimos y añade medidas adicionales de validación, seguridad e integridad referencial. Las pruebas realizadas muestran no solo los casos correctos, sino también errores esperados como `400`, `401`, `403`, `404` y `409`.
 
